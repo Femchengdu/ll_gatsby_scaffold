@@ -1,4 +1,6 @@
-// gatsby-config.js
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
 
 module.exports = {
   flags: {
@@ -9,7 +11,7 @@ module.exports = {
     {
       resolve: `gatsby-source-wordpress`,
       options: {
-        url: `http://3.135.241.225/graphql`, // This should be extracted to an environment variable
+        url: process.env.WP_GRAPHQL_API,
       },
     },
     `gatsby-plugin-gatsby-cloud`,
