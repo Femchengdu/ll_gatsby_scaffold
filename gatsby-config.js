@@ -11,7 +11,7 @@ module.exports = {
     {
       resolve: `gatsby-source-wordpress`,
       options: {
-        url: process.env.WP_GRAPHQL_API,
+        url: process.env.WP_GRAPHQL_API, // How do I handle you on github?
       },
     },
     `gatsby-plugin-gatsby-cloud`,
