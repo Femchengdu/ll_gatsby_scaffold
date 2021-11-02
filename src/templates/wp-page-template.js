@@ -13,8 +13,8 @@ const WpPageTemplate = ({ data: { wpPage } }) => {
 };
 
 export const query = graphql`
-  query ($id: String!) {
-    wpPage(id: { eq: $id }) {
+  query ($databaseId: Int!) {
+    wpPage(databaseId: { eq: $databaseId }) {
       title
       content
     }

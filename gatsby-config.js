@@ -3,15 +3,14 @@ require("dotenv").config({
 });
 
 module.exports = {
-  flags: {
-    // https://stackoverflow.com/a/65980746/6600216
-    DEV_SSR: false,
-  },
   plugins: [
     {
       resolve: `gatsby-source-wordpress`,
       options: {
         url: process.env.WP_GRAPHQL_API, // How do I handle you on github?
+        develop: {
+          hardCacheMediaFiles: true,
+        },
       },
     },
     `gatsby-plugin-gatsby-cloud`,

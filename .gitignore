@@ -108,3 +108,10 @@ dist
 
 # Gatsby
 public
+
+# DS Store
+.DS_Store
+
+# WordPress Cache
+
+.wordpress-cache/

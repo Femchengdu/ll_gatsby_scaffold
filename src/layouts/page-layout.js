@@ -1,27 +1,25 @@
-// src/layouts/page-layout.js
-
 import React, { Fragment } from "react";
-import { useStaticQuery, graphql, Link } from "gatsby";
+import PropTypes from "prop-types";
+import { useStaticQuery, graphql } from "gatsby";
+
+import Header from "../components/header";
+import Footer from "../components/footer";
+import "./layout.css";
+import "@wordpress/block-library/build-style/style.css";
+
+/**
+ * Layout component that queries for data
+ * with Gatsby's useStaticQuery component
+ *
+ * See: https://www.gatsbyjs.com/docs/use-static-query/
+ */
 
 const PageLayout = ({ children }) => {
-  const {
-    allWpMenu: {
-      nodes: {
-        0: {
-          menuItems: { nodes },
-        },
-      },
-    },
-  } = useStaticQuery(graphql`
-    {
-      allWpMenu {
-        nodes {
-          menuItems {
-            nodes {
-              label
-              url
-            }
-          }
+  const data = useStaticQuery(graphql`
+    query SiteTitleQuery {
+      wp {
+        generalSettings {
+          title
         }
       }
     }
@@ -29,24 +27,23 @@ const PageLayout = ({ children }) => {
 
   return (
     <Fragment>
-      <header>
-        <nav>
-          <ul>
-            {nodes.map((item, index) => {
-              const { label, url } = item;
-
-              return (
-                <li key={index}>
-                  <Link to={url}>{label}</Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-      </header>
-      <main>{children}</main>
+      <Header siteTitle={data.wp.generalSettings.title || `Title`} />
+      <div
+        style={{
+          margin: `0 auto`,
+          maxWidth: 960,
+          padding: `0 1.0875rem 1.45rem`,
+        }}
+      >
+        <main>{children}</main>
+      </div>
+      <Footer />
     </Fragment>
   );
 };
 
 export default PageLayout;
+
+PageLayout.propTypes = {
+  children: PropTypes.node.isRequired,
+};

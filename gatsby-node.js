@@ -1,25 +1,41 @@
-exports.createPages = async ({ graphql, actions }) => {
-  const {
-    data: { allWpPage },
-  } = await graphql(`
-    query {
-      allWpPage {
+/**
+ * Implement Gatsby's Node APIs in this file.
+ *
+ * See: https://www.gatsbyjs.com/docs/node-apis/
+ */
+
+const path = require(`path`);
+
+exports.createPages = async ({ actions, graphql, reporter }) => {
+  const { createPage } = actions;
+
+  // Query all the data
+  const queryResult = await graphql(`
+    {
+      pageQuery: allWpPage {
         nodes {
-          id
+          databaseId
           uri
         }
       }
     }
   `);
 
-  allWpPage.nodes.map((page) => {
-    const { id, uri } = page;
+  if (queryResult.errors) {
+    reporter.panic("error loading events", queryResult.errors);
+    return;
+  }
 
-    return actions.createPage({
-      path: uri,
-      component: require.resolve("./src/templates/wp-page-template.js"),
+  // Generate single page pages
+  const pages = queryResult.data.pageQuery.nodes;
+  pages.forEach((page) => {
+    createPage({
+      path: page.uri,
+      component: path.resolve(`./src/templates/wp-page-template.js`),
       context: {
-        id: id,
+        // Data passed to context is available
+        // in page queries as GraphQL variables.
+        databaseId: page.databaseId,
       },
     });
   });
