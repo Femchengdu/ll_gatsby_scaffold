@@ -7,7 +7,7 @@ const Index = () => {
         {" "}
         <img alt="" src={process.env.SAMPLE_MEDIA_URL} />{" "}
       </figure>
-      <p>Hello world</p>;
+      <p>Hello world</p>
     </div>
   );
 };
